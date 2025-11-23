@@ -1,0 +1,66 @@
+import { forwardRef, useImperativeHandle } from "react";
+import { useFormik } from "formik";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+
+import Form from "../../components/form/form";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { ToastHandler } from "../../utils/ToastHandler";
+import { CATEGORY_QUERY_KEY, CATEGORY_NAME_VALIDATION } from "./constants";
+
+const SearchCategories = forwardRef((props, ref) => {
+	const axios = useAxiosPrivate();
+	const queryClient = useQueryClient();
+
+	const searchMutation = useMutation({
+		mutationKey: CATEGORY_QUERY_KEY,
+		mutationFn: (name) => axios.post("categories/search", { name }),
+		onSuccess: (data) => {
+			queryClient.setQueryData(CATEGORY_QUERY_KEY, data);
+		},
+		onError(error) {
+			ToastHandler({ error });
+		},
+	});
+
+	const formik = useFormik({
+		initialValues: { name: "" },
+		validationSchema: CATEGORY_NAME_VALIDATION,
+		onSubmit: (values) => {
+			searchMutation.mutate(values.name);
+		},
+	});
+
+	useImperativeHandle(ref, () => ({
+		formik,
+	}));
+
+	return (
+		<Form
+			onSubmit={formik.handleSubmit}
+			style="bg-white !shadow-none w-full mt-4 gap-3 flex items-center justify-center"
+		>
+			<Form.input_group style="w-full">
+				<Form.input
+					name="name"
+					placeholder="Search in category"
+					formik={formik}
+				/>
+			</Form.input_group>
+
+			<Form.input_group>
+				<button
+					type="submit"
+					disabled={formik.isSubmitting}
+					className="p-2 cursor-pointer text-white rounded bg-primary hover:opacity-90 disabled:opacity-50 transition"
+					title="Search categories"
+				>
+					<FontAwesomeIcon icon={faSearch} />
+				</button>
+			</Form.input_group>
+		</Form>
+	);
+});
+
+export default SearchCategories;
