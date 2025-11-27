@@ -26,19 +26,13 @@ const ProductPagination = ({ setParams, params, getProducts, pagination }) => {
 	return (
 		<div className="w-full flex items-center justify-center gap-4 mt-7">
 			<div className="flex items-center justify-center p-3 gap-4 shadow-md rounded bg-gray-300">
-				<Button
-					onClick={prev}
-					disabled={!pagination?.hasPrev || getProducts.isFetching}
-				>
+				<Button onClick={prev} disabled={!pagination?.hasPrev || getProducts.isFetching}>
 					<FontAwesomeIcon icon={faArrowLeft} />
 				</Button>
 				<div className="text-primary shadow-md rounded p-3 text-bold text-xl bg-gray">
-					{pagination?.totalPages} / {pagination?.page}
+					{pagination?.page} / {pagination?.totalPages}
 				</div>
-				<Button
-					onClick={next}
-					disabled={!pagination?.hasNext || getProducts.isFetching}
-				>
+				<Button onClick={next} disabled={!pagination?.hasNext || getProducts.isFetching}>
 					<FontAwesomeIcon icon={faArrowRight} />
 				</Button>
 			</div>

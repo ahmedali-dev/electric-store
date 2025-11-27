@@ -3,8 +3,6 @@ import useLocalStorage from "./useLocalStorage";
 import * as jwt from "jwt-decode";
 import { useMemo } from "react";
 import { useEffect } from "react";
-import { useRef } from "react";
-import { useLayoutEffect } from "react";
 import { useCallback } from "react";
 import axiosInstance from "../utils/axios";
 import { useMutation } from "@tanstack/react-query";
@@ -30,7 +28,7 @@ export const AuthProvider = ({ children }) => {
 			}
 		},
 		onError: (err) => {
-			console.log("hello", err);
+			console.log("are you logout", err);
 			storage.deleteItem();
 		},
 	});
@@ -86,9 +84,7 @@ export const AuthProvider = ({ children }) => {
 	}, [storage]);
 
 	return (
-		<AuthContext.Provider
-			value={{ token: storage.item, decoded, login, logout, isLogin }}
-		>
+		<AuthContext.Provider value={{ token: storage.item, decoded, login, logout, isLogin }}>
 			{children}
 		</AuthContext.Provider>
 	);

@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion } from "motion/react";
 import Button from "./Button";
+import Spinner from "./Spinner";
 
 const container = document.getElementById("dialog");
 
-const Dialog = ({ open, close, action, isSubmitting, type, children }) => {
+const Dialog = ({ open, close, action, isSubmitting, type, children, loading = false }) => {
 	const [isVisible, setIsVisible] = useState(false);
 
 	// Control internal visibility (for exit animation)
@@ -46,28 +47,30 @@ const Dialog = ({ open, close, action, isSubmitting, type, children }) => {
 				}}
 				transition={{ duration: 0.25 }}
 			>
-				<div className="mb-[1rem] flex flex-col items-center justify-center min-height-[100px] text-center">
-					{children}
-				</div>
+				{loading ? (
+					<div className="flex justify-center items-center min-h-[150px]">
+						<Spinner fullAndCenter={true} size={40} />
+					</div>
+				) : (
+					<>
+						{" "}
+						<div className="mb-[1rem] flex flex-col items-center justify-center min-height-[100px] text-center">
+							{children}
+						</div>
+						<div className="flex gap-3 justify-around">
+							<button
+								onClick={close}
+								className="p-2 cursor-pointer border border-secondary rounded min-w-[100px] text-center"
+							>
+								Cancel
+							</button>
 
-				<div className="flex gap-3 justify-around">
-					<button
-						onClick={close}
-						className="p-2 cursor-pointer border border-secondary rounded min-w-[100px] text-center"
-					>
-						Cancel
-					</button>
-
-					<Button
-						onClick={action}
-						type={type}
-						disabled={isSubmitting}
-						loading={isSubmitting}
-						className="min-w-[100px]"
-					>
-						OK
-					</Button>
-				</div>
+							<Button onClick={action} type={type} loading={isSubmitting} className="min-w-[100px]">
+								OK
+							</Button>
+						</div>
+					</>
+				)}
 			</motion.dialog>
 		</>,
 		container

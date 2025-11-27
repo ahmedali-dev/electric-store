@@ -62,13 +62,9 @@ const AddCategory = forwardRef((props, ref) => {
 				close={closeDialog}
 			>
 				<Form onSubmit={formik.handleSubmit} style="mb-4 !shadow-none">
+					<h1 className="font-bold text-2xl">Add New Category</h1>
 					<Form.input_group style="text-start">
-						<Form.input
-							label="name"
-							name="name"
-							placeholder="Category name"
-							formik={formik}
-						/>
+						<Form.input label="name" name="name" placeholder="Category name" formik={formik} />
 					</Form.input_group>
 				</Form>
 			</Dialog>

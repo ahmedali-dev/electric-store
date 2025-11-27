@@ -59,9 +59,7 @@ const Categories = () => {
 					<div className="flex items-center gap-4 justify-start">
 						{decoded.kind === "admin" && (
 							<button
-								onClick={() =>
-									addDialogRef.current?.openDialog()
-								}
+								onClick={() => addDialogRef.current?.openDialog()}
 								className="p-2 text-white bg-primary rounded cursor-pointer hover:opacity-90"
 							>
 								Add Category <FontAwesomeIcon icon={faAdd} />
@@ -82,9 +80,7 @@ const Categories = () => {
 						sortByDate={sortByDate}
 						setSortByDate={setSortByDate}
 						data={data?.data?.data || []}
-						showDeleteDialog={
-							deleteDialogRef.current?.showDeleteDialog
-						}
+						showDeleteDialog={deleteDialogRef.current?.showDeleteDialog}
 						showEditDialog={editDialogRef?.current?.showEditDialog}
 					/>
 				</div>

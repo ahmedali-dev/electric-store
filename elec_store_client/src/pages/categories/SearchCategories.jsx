@@ -8,6 +8,7 @@ import Form from "../../components/form/form";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { ToastHandler } from "../../utils/ToastHandler";
 import { CATEGORY_QUERY_KEY, CATEGORY_NAME_VALIDATION } from "./constants";
+import Button from "../../components/Button";
 
 const SearchCategories = forwardRef((props, ref) => {
 	const axios = useAxiosPrivate();
@@ -18,9 +19,11 @@ const SearchCategories = forwardRef((props, ref) => {
 		mutationFn: (name) => axios.post("categories/search", { name }),
 		onSuccess: (data) => {
 			queryClient.setQueryData(CATEGORY_QUERY_KEY, data);
+			formik.setSubmitting(false);
 		},
 		onError(error) {
 			ToastHandler({ error });
+			formik.setSubmitting(false);
 		},
 	});
 
@@ -46,18 +49,19 @@ const SearchCategories = forwardRef((props, ref) => {
 					name="name"
 					placeholder="Search in category"
 					formik={formik}
+					showError={false}
 				/>
 			</Form.input_group>
 
 			<Form.input_group>
-				<button
+				<Button
 					type="submit"
-					disabled={formik.isSubmitting}
-					className="p-2 cursor-pointer text-white rounded bg-primary hover:opacity-90 disabled:opacity-50 transition"
+					loading={formik.isSubmitting}
+					className="p-3! cursor-pointer text-white rounded bg-primary hover:opacity-90 disabled:opacity-50 transition"
 					title="Search categories"
 				>
 					<FontAwesomeIcon icon={faSearch} />
-				</button>
+				</Button>
 			</Form.input_group>
 		</Form>
 	);

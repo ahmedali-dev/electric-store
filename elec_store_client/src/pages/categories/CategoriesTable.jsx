@@ -63,10 +63,7 @@ const CategoriesTable = ({
 								</Table.td>
 								<Table.td className="pl-2 !text-black pb-4 pt-6 border-b-1 border-gray">
 									<Link
-										to={
-											"/categories/products/" +
-											category.id
-										}
+										to={"/products?id=" + category.id}
 										className="w-max-content p-3 rounded bg-gray hover:scale(1.03) hover:shadow-md hover:shadow-primary/50 hover:bg-primary hover:text-white Table.transition"
 									>
 										{category.name}

@@ -1,12 +1,6 @@
 import React from "react";
 
-const Spinner = ({
-	size = 40,
-	color = "#4A90E2",
-	speed = 0.8,
-	className = "",
-	fullAndCenter = false,
-}) => {
+const Spinner = ({ size = 40, color = "#4A90E2", speed = 0.8, className = "", fullAndCenter = false }) => {
 	// Helper to handle numeric (40) vs string ("40px") sizes
 	const sizeValue = typeof size === "number" ? `${size}px` : size;
 
@@ -16,7 +10,9 @@ const Spinner = ({
 
 	const styles = {
 		container: {
-			display: "inline-block",
+			display: "flex",
+			alignItems: "center",
+			justifyContent: "center",
 			width: sizeValue,
 			height: sizeValue,
 			minWidth: sizeValue, // Prevents shrinking in flex containers
@@ -41,18 +37,9 @@ const Spinner = ({
         `}
 			</style>
 			<div
-				className={
-					fullAndCenter
-						? "absolute top-0 left-0 w-full h-full flex items-center justify-center"
-						: ""
-				}
+				className={fullAndCenter ? "absolute top-0 left-0 w-full h-full flex items-center justify-center" : ""}
 			>
-				<div
-					style={styles.container}
-					className={className}
-					role="status"
-					aria-label="Loading"
-				></div>
+				<div style={styles.container} className={className} role="status" aria-label="Loading"></div>
 			</div>
 		</>
 	);

@@ -4,7 +4,6 @@ import useAuth from "../hooks/useAuth";
 import SideBar from "./SideBar";
 const Layout = ({ children, ...props }) => {
 	const { decoded } = useAuth();
-	console.log(decoded);
 	return (
 		<div>
 			<div className="flex gap-1 max-w-[1480px] m-auto ">
