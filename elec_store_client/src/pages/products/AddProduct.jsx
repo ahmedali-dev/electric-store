@@ -28,6 +28,7 @@ const AddProduct = ({ getProducts }) => {
 		initialValues: { name: "", quantity: 0, categoryId: "" },
 		validationSchema,
 		onSubmit: (values, action) => {
+			values = { ...values, quantity: parseInt(values.quantity) };
 			addProduct.mutate(values);
 		},
 	});

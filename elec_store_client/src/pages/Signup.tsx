@@ -6,6 +6,7 @@ import axios from './../utils/axios';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';
+import Button from '../components/Button';
 
 
 const validationSchema = yup.object().shape({
@@ -41,6 +42,7 @@ const Signup = () => {
         onSuccess: (data) => {
             toast.success(data.data?.message);
             navigate('/login')
+            formik.setSubmitting(false);
         }
     });
 
@@ -55,6 +57,7 @@ const Signup = () => {
         if (err?.errors) {
             formik.setErrors(err.errors);
         }
+        formik.setSubmitting(false);
     }, [isError, error]); // only runs when error changes
 
     return (
@@ -77,9 +80,9 @@ const Signup = () => {
                     <Form.input type='password' name='password_confirm' placeholder='Password Confirm' formik={formik} label='Confirm Password' />
                 </Form.input_group>
                 <Form.input_group style={''}>
-                    <button type='submit' className='bg-primary p-[.7rem] with-full rounded-[7px] shadow-md mt-[1rem] text-white cursor-pointer disabled:bg-gray-600' disabled={formik.isSubmitting}>
+                    <Button loading={formik.isSubmitting} type='submit' className='bg-primary p-[.7rem] with-full rounded-[7px] shadow-md mt-[1rem] text-white cursor-pointer disabled:bg-gray-600' disabled={formik.isSubmitting}>
                         Signup
-                    </button>
+                    </Button>
                 </Form.input_group>
                 <Form.input_group style={''}>
                     <Link className='mt-[1rem]' to={'/login'}>

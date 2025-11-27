@@ -31,27 +31,14 @@ const App = () => {
 					<Route path="/login" element={<Login />} />
 					<Route path="/signup" element={<Signup />} />
 					<Route path="/active_account" element={<ActiveAccount />} />
-					<Route
-						path="/forget_password"
-						element={<ForgetPassword />}
-					/>
+					<Route path="/forget_password" element={<ForgetPassword />} />
 					<Route path="/reset_password" element={<ResetPassword />} />
-					<Route
-						path="*"
-						element={<Navigate to={"/login"} replace />}
-					/>
+					<Route path="*" element={<Navigate to={"/login"} replace />} />
 				</Route>
 
 				{/*  */}
 				{/* protected routes */}
 				{/*  */}
-
-				<Route element={<ProtectedRoute role={"employee"} />}>
-					<Route element={<Layout />}>
-						<Route path="/" element={<div>store</div>} />
-						<Route path="/orders" element={<div>orders</div>} />
-					</Route>
-				</Route>
 
 				<Route element={<ProtectedRoute role={"admin"} />}>
 					<Route element={<Layout />}>
@@ -64,7 +51,14 @@ const App = () => {
 						<Route path="/products">
 							<Route index element={<Products />} />
 						</Route>
+						<Route path="/orders" element={<div>orders admin</div>} />
 						<Route path="/dashboard" element={<div>hello</div>} />
+					</Route>
+				</Route>
+
+				<Route element={<ProtectedRoute role={"employee"} />}>
+					<Route element={<Layout />}>
+						<Route path="/" element={<div>store</div>} />
 						<Route path="/orders" element={<div>orders</div>} />
 					</Route>
 				</Route>

@@ -31,7 +31,7 @@ export function ProtectedRoute({ role, ...props }) {
 
 	// check token found
 
-	if (!isLogin && !token) {
+	if (!isLogin || !token) {
 		return <Navigate to={"/login"} state={{ from: location }} replace />;
 	}
 

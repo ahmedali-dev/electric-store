@@ -9,25 +9,12 @@ import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
 import EditProduct from "./EditProduct";
 import { useRef } from "react";
 import useAuth from "../../hooks/useAuth";
-import { useMutation } from "@tanstack/react-query";
-import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { ToastHandler } from "../../utils/ToastHandler";
+import DeleteProduct from "./DeleteProduct";
 
 const Product = ({ data = [], setParams, params, getProducts, loading }) => {
 	const EditProductRef = useRef();
+	const DeleteRef = useRef();
 	const { decoded } = useAuth();
-	const axios = useAxiosPrivate();
-	const deleteItem = useMutation({
-		mutationKey: ["products"],
-		mutationFn: async (id) => (await axios.delete(`/products/${id}`)).data,
-		onSuccess: (data) => {
-			ToastHandler({ data: { data } });
-			getProducts.refetch();
-		},
-		onError: (error) => {
-			ToastHandler({ error });
-		},
-	});
 
 	function sortByDate() {
 		setParams((prev) => {
@@ -44,6 +31,7 @@ const Product = ({ data = [], setParams, params, getProducts, loading }) => {
 
 	return (
 		<>
+			<DeleteProduct ref={DeleteRef} />
 			<EditProduct ref={EditProductRef} />
 			<Table className={"w-full"}>
 				<Table.thead className={""}>
@@ -109,7 +97,7 @@ const Product = ({ data = [], setParams, params, getProducts, loading }) => {
 
 											<Table.td className="pl-2 !text-black pb-4 pt-6 border-b-1 border-gray text">
 												<button
-													onClick={() => deleteItem.mutate(product.id)}
+													onClick={() => DeleteRef?.current?.showDeleteDialog(product.id)}
 													className="cursor-pointer text-red-500"
 												>
 													<FontAwesomeIcon icon={faTrash} />

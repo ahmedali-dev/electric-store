@@ -14,10 +14,7 @@ import path from "path";
 const app = express();
 const _PORT = process.env.PORT || 3000;
 
-let accessLogStream = createWriteStream(
-	path.join(path.dirname("."), "access.log"),
-	{ flags: "a" }
-);
+let accessLogStream = createWriteStream(path.join(path.dirname("."), "access.log"), { flags: "a" });
 app.use(morgan("combined", { stream: accessLogStream }));
 
 app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
@@ -48,6 +45,14 @@ app.use("/api/v1/categories", categories);
 import products from "./routers/products.js";
 app.use("/api/v1/products", products);
 
+// ------------------
+// order
+// ------------------
+import order from "./routers/orders.js";
+app.use("/api/v1/orders", order);
+
+// ------------------
+
 app.use((err, req, res, next) => {
 	if (err instanceof jwt.JsonWebTokenError) {
 		res.status(401).json({
@@ -72,9 +77,7 @@ app.use((err, req, res, next) => {
 
 	if (err instanceof ErrorHandler) {
 		console.log(err.stack);
-		const data = err.stack
-			? { ...err.response, stack: String(err.stack) }
-			: err.response;
+		const data = err.stack ? { ...err.response, stack: String(err.stack) } : err.response;
 		res.status(Number(err.status)).json(data);
 	}
 });
