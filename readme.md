@@ -1,3 +1,4 @@
+-- block table
 create table if not exists blocks (
   id varchar(255) primary key,
   name varchar(100) not null unique,
